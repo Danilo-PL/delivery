@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  <style>
+    :root {
+      --blue: #79A9F5;
+      --indigo: #C45F90;
+      --purple: #A16AE8;
+      --pink: #ff214f;
+      --red: #F85C70;
+      --orange: #FF8882;
+      --yellow: #FAD02C;
+      --green: #A3C14A;
+      --teal: #20c997;
+      --cyan: #47D8E0;
+      --white: #fff;
+      --gray: #6c757d;
+      --gray-dark: #343a40;
+      --primary: #ff214f;
+      --secondary: #6c757d;
+      --success: #A3C14A;
+      --info: #47D8E0;
+      --warning: #FF8882;
+      --danger: #F85C70;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --background-color: #F2E4C4; /* Color cálido tipo beige */
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color); /* Fondo cálido de la página */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--gray-dark);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con algo de transparencia */
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .login-box:hover {
+      transform: translateY(-10px);
+    }
+
+    .login-logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+      
+      
+    }
+
+    .login-box-msg {
+      font-size: 1.5rem;
+      color: var(--gray-dark);
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .from-control {
+      width: 90%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 2px solid var(--gray);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s;
+      background-color: var(--light);
+    }
+
+    .from-control:focus {
+      border-color: var(--primary);
+    }
+
+    .input-group-append {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .input-group-ext {
+      background-color: var(--primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .input-icon {
+      font-size: 1.5rem;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .button-container {
+      margin-top: 30px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background-color: var(--danger);
+      transform: translateY(-2px);
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary);
+    }
+
+    .input-group .input-group-ext span {
+      color: var(--white);
+    }
+
+    .login-logo a:hover {
+      color: var(--danger);
+    }
+
+    .link {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="login-logo">
+      <h1 class="login-logo">Delivery</h1>
+    </div>
+    <div class="card card_ouline card-primary">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Inicio de Sesión</p>
+        <form onsubmit="handleLogin(event)">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="from-control"
+              placeholder="Nombre de Usuario o correo"
+              id="username"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="password"
+              class="from-control"
+              placeholder="Contraseña"
+              id="password"
+              autocomplete="current-password"
+            />
+            <div class="button-container">
+              <button type="submit">Iniciar sesión</button>
+              <a class="link" href="Recuperar.html">Recuperar Contraseña</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
