@@ -49,13 +49,19 @@ exports.guardar = async (req, res) => {
         datos: [],
         msj: [],
     }
+    const hash = await argon2.hash(password, {
+      type: argon2.argon2id,
+      memoryCost: 2 ** 16, // 64MB
+      timeCost: 4,
+      parallelism: 2,
+  });
     contenido.msj= errores(validationResult(req));
     if(contenido.msj.length>0){
         enviar(200, contenido, res);
     }
     else{
         try {
-            await ModeloUsuario.create({...req.body})
+            await ModeloUsuario.create({...req.body,password:hash})
             .then((data)=>{
                 contenido.tipo=1;
                 contenido.datos=data;
@@ -228,18 +234,18 @@ exports.recuperarContrasena = async (req, res) => {
       const { email, password } = req.body;
   
       const usuario = await ModeloUsuario.findOne({
-        atributes: ['fecha_creacion','pin', 'rol', 'email', 'password'],
+        atributes: ['pin', 'rol', 'email', 'password'],
         include: [
           {
             model: ModeloEmpleado,
-            atributes: ['identidad', 'nombre', 'telefono', 'correo', 'cargo'],
+            atributes: ['identidad', 'nombre', 'telefono', 'correo', 'cargo','Salario'],
             
           }
         ],
         where: {
           [Op.or]: [
             { email: { [Op.like]: email } },
-            { password: { [Op.like]: email } },
+       
           ]
           
         }
@@ -251,6 +257,7 @@ exports.recuperarContrasena = async (req, res) => {
         if (await argon2.verify(usuario.password, password)) {
           const Usuario = {
             email: usuario.email,
+            rol:usuario.rol
           };
           const Token = getToken({ id: usuario.empleadoId });
           return res.json({ Token, Usuario });

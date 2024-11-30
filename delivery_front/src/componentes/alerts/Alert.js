@@ -1,6 +1,6 @@
 import swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-const MySwal = whitReactContent(swal);
+const MySwal = withReactContent(swal);
 const swalwithBootstrapButtons = MySwal.mixin({
     custonclass:{
         confirmButton: 'btn btn-succes',
@@ -15,8 +15,8 @@ export function mostrarAlerta(mensaje, icono, foco){
         
         title: mensaje,
         icon: icono, //success, info, error, warning
-        confirButtonText: "Aceptar",
-        custonclass:{
+        confirmButtonText: "Aceptar",
+        customClass:{
             confirmButton : 'btn-primary', //clases de boton de confirmacion
         }
     });
@@ -53,7 +53,7 @@ export function mostraAlertaError(mensaje, icono, foco){
     MySwal.fire({
 
         title: mensaje,
-        icon: 'serror',
+        icon: 'error',
         confirmButtonText: "Aceptar",
         showConfirmButton: false,
         timer:3000

@@ -1,8 +1,6 @@
-
-
 import React, { useEffect, useReducer, useState } from "react";
 import { UsuarioContext } from "./UsuarioContext";
-import { useSessionStorage } from "../storage/useSessionStorage";
+import { useSessionStorage } from "../storage/SessionStorage";
 
 const UsuarioState = (props) => {
     const [usuario, setUsuario] = useSessionStorage("usuario_almacenado", null);
@@ -24,7 +22,7 @@ const UsuarioState = (props) => {
 
     return (
         <UsuarioContext.Provider value={{
-            usuario: usuario,
+            email: usuario,
             token: token,
             setLogin,
             setCerrarSesion,
@@ -33,3 +31,5 @@ const UsuarioState = (props) => {
         </UsuarioContext.Provider>
     );
 };
+
+export default UsuarioState;

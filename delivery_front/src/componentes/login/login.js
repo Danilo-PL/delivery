@@ -1,18 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import './login.css'; //Crear este archivo para los estilos
+import {mostrarAlerta} from '../alerts/Alert';
+import {useContextUsuario} from '../../contexto/usuario/UsuarioContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const {setLogin, setCerrarSesion} = useContextUsuario();
 
-    const handleLogin = async (e) => {
+    useEffect(()=>{
+        setCerrarSesion();
+    }, [setCerrarSesion]);
+    
+    const navigate = useNavigate();
+    
+    const handleLogin = async (e) =>{
         e.preventDefault();
-        try {
-            const response = await axios.post('https://njl2pr6d-3001.use.devtunnels.ms/api/usuarios/login', { email: username, password: password });
-            console.log('Login response:', response.data.data);
-        } catch (error) {
-            console.error('Error login in:', error);
+        try{
+            if(username === "" || password === ""){
+                mostrarAlerta("Complete los Campos", "warning");
+                return;
+            }
+            await axios.post('https://njl2pr6d-3001.use.devtunnels.ms/api/usuarios/login',{
+                email: username,
+                password: password,
+            })
+            .then(async (data)=>{
+                const json = data.data;
+                console.log(data.data);
+                try{
+                    var usuario = json.Usuario;
+                    var token = json.Token;
+                    
+                    mostrarAlerta(
+                        "Bienvenido(a) " + usuario.email,
+                        "success"
+                    );
+                    await setLogin({usuario:usuario, token:token});
+                    console.log(token);
+                    navigate("/app/home");
+                }catch(error){
+                    console.error(error);
+                }
+            })
+            .catch((error) =>{
+                console.log(error);
+                if(Array.isArray(error.response.data)){
+                    error.response.data.msj.forEach((f)=>{
+                        mostrarAlerta("Campo:"+ f.msj,"warning");
+                    });
+                }else{
+                    mostrarAlerta(error.response.data.error, "warning");
+                }
+            });
+        }catch(error){
+            console.log("Error:", error);
+            mostrarAlerta("Error en la paticion", "error");
         }
     };
     return (

@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-const clave = 'MyClaveSegura';
+const clave = 'MyClaveSegura123';
 export const Encriptar = (datos)=>{
     const encrypt = CryptoJS.AES.encrypt(
         JSON.stringify(datos),
