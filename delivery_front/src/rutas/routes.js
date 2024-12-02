@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import PageHome from "../paginas/PageHome";
 import Login from "../componentes/login/login";
-import Recuperar from "../componentes/recuperar/recuperar";
+import Recuperar from "../componentes/Recuperar/recuperar";
 import Actualizar from "../componentes/actualizar/actualizar";
 import { AutenticacionRoute } from "./AutenticationRoute";
 
