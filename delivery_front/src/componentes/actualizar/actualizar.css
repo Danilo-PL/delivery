@@ -1,0 +1,84 @@
+:root {
+    --primary: #ff214f;
+    --danger: #F85C70;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --background-color: #F2E4C4;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--gray-dark);
+  }
+
+  .update-box {
+    width: 100%;
+    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+  }
+
+  .update-logo a {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .update-box-msg {
+    font-size: 1.2rem;
+    color: var(--gray-dark);
+    margin-bottom: 25px;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .from-control {
+    width: 90%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid var(--gray);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: var(--white);
+  }
+
+  .from-control:focus {
+    border-color: var(--primary);
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+    background-color: var(--danger);
+  }
+
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary);
+  }

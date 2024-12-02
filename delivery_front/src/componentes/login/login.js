@@ -23,7 +23,7 @@ const Login = () => {
                 mostrarAlerta("Complete los Campos", "warning");
                 return;
             }
-            await axios.post('https://njl2pr6d-3001.use.devtunnels.ms/api/usuarios/login',{
+            await axios.post('http://localhost:3001/api/usuarios/login',{
                 email: username,
                 password: password,
             })
@@ -57,13 +57,13 @@ const Login = () => {
             });
         }catch(error){
             console.log("Error:", error);
-            mostrarAlerta("Error en la paticion", "error");
+            mostrarAlerta("Error en la peticion", "error");
         }
     };
     return (
         <div className='login-box'>
             <div className='login-logo'>
-                <a href='/'>Delivery</a>
+                <a class="login-logo">Delivery</a>
             </div>
             <div className='card card_ouline card-primary'>
                 <div className='card-body login-card-body'>
@@ -77,11 +77,6 @@ const Login = () => {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                             />
-                            <div className='input-group-append'>
-                                <div className='input-group-ext'>
-                                    <span className='fas fa-envelope'></span>
-                                </div>
-                            </div>
                         </div>
                         <div className='input-group'>
                             <input
@@ -92,15 +87,10 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
                             />
-                            <div className='input-group-append'>
-                                <div className='input-group-ext'>
-                                    <span className='fas fa-envelope'></span>
-                                </div>
-                            </div>
-                            <span className="input-icon">🔒</span>
                             <div className='button-container'>
-                                <button type='submit'>Sing in</button>
+                                <button type='submit'>Sing in</button>                            
                             </div>
+                            <a class="link" href="/Recuperar">Recuperar Contraseña</a>
                         </div>
                     </form>
                 </div>
