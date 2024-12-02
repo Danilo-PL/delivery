@@ -40,7 +40,7 @@ const Login = () => {
                     );
                     await setLogin({usuario:usuario, token:token});
                     console.log(token);
-                    navigate("/app/home");
+                    navigate("app/home");
                 }catch(error){
                     console.error(error);
                 }
