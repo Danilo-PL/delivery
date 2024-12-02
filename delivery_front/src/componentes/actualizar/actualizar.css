@@ -1,25 +1,10 @@
 :root {
-    --blue: #79A9F5;
-    --indigo: #C45F90;
-    --purple: #A16AE8;
-    --pink: #ff214f;
-    --red: #F85C70;
-    --orange: #FF8882;
-    --yellow: #FAD02C;
-    --green: #A3C14A;
-    --teal: #20c997;
-    --cyan: #47D8E0;
-    --white: #fff;
-    --gray: #6c757d;
-    --gray-dark: #343a40;
     --primary: #ff214f;
-    --secondary: #6c757d;
     --danger: #F85C70;
     --white: #fff;
     --gray: #6c757d;
     --gray-dark: #343a40;
     --background-color: #F2E4C4;
-    --background-color: #F2E4C4; /* Color cálido tipo beige */
   }
 
   body {
@@ -33,7 +18,7 @@
     color: var(--gray-dark);
   }
 
-  .login-box {
+  .update-box {
     width: 100%;
     max-width: 400px;
     background-color: rgba(255, 255, 255, 0.9);
@@ -43,7 +28,7 @@
     text-align: center;
   }
 
-  .login-logo a {
+  .update-logo a {
     font-size: 2rem;
     font-weight: bold;
     color: var(--primary);
@@ -52,7 +37,7 @@
     display: block;
   }
 
-  .login-box-msg {
+  .update-box-msg {
     font-size: 1.2rem;
     color: var(--gray-dark);
     margin-bottom: 25px;
@@ -60,7 +45,6 @@
 
   .input-group {
     margin-bottom: 20px;
-    position: relative;
   }
 
   .from-control {
@@ -79,9 +63,8 @@
   }
 
   button {
-    width: 80%;
-    margin-left: 0px;
-    padding: 5px;
+    width: 100%;
+    padding: 12px;
     font-size: 1.1rem;
     background-color: var(--primary);
     color: var(--white);

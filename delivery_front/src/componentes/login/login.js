@@ -90,7 +90,7 @@ const Login = () => {
                             <div className='button-container'>
                                 <button type='submit'>Sing in</button>                            
                             </div>
-                            <a class="link" href="/recuperar">Recuperar Contraseña</a>
+                            <a class="link" href="/Recuperar">Recuperar Contraseña</a>
                         </div>
                     </form>
                 </div>

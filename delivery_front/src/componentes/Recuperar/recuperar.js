@@ -19,13 +19,14 @@ const Recuperar = () => {
     const handleLogin = async (e) =>{
         e.preventDefault();
         try{
-            if(username === "" || password === ""){
+            if(username === ""){
                 mostrarAlerta("Complete los Campos", "warning");
                 return;
             }
             await axios.post('http://localhost:3001/api/usuarios/pin',{
                 email: username
             })
+            navigate("/Actualizar");
         }catch(error){
             console.log("Error:", error);
             mostrarAlerta("Error en la peticion", "error");
@@ -48,7 +49,7 @@ const Recuperar = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <button type="submit">Recuperar Contraseña</button>
+      <button type="submit" >Recuperar Contraseña</button>
     </form>
   </div>
 </body>
