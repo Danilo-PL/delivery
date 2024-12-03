@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const Cuerpo = () => {
+  const navigate = useNavigate();
+  const Productos = () =>{
+    navigate("/productos")
+  }
   return (
     <header id="home" class="header">
       
         <div class="overlay text-white text-center">
-            <h1 class="display-2 font-weight-bold my-3">Food Hut</h1>
-            <h2 class="display-4 mb-5">Always fresh &amp; Delightful</h2>
-            <a class="btn btn-lg btn-primary" href="#gallary">View Our gallary</a>
+            <h1 class="display-2 font-weight-bold my-3">Delivery</h1>
+            <h2 class="display-4 mb-5">ordenes y &amp; pedidos</h2>
+            <button type='button' class="btn btn-lg btn-primary" onClick={Productos}>Registar producto</button>
+            <a class="btn btn-lg btn-primary" href="#gallary">Registar usuario</a>
         </div>
     </header>
   );

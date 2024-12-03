@@ -4,6 +4,7 @@ import PageHome from "../paginas/PageHome";
 import Login from "../componentes/login/login";
 import Recuperar from "../componentes/Recuperar/recuperar";
 import Actualizar from "../componentes/actualizar/actualizar";
+import Productos from "../componentes/productos/prouctos";
 import { AutenticacionRoute } from "./AutenticationRoute";
 
 export const routes = createBrowserRouter(
@@ -15,6 +16,8 @@ export const routes = createBrowserRouter(
            
             <Route path="/app" element={<AutenticacionRoute />}>
               <Route path="home" element={<PageHome />} />
+              <Route path="productos" element={<Productos />} >
+              </Route>
             </Route>
 
       
