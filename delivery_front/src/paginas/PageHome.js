@@ -1,12 +1,14 @@
 import React from 'react';
-import Cuerpo from '../pantillas/cuerpo'
 import Encabezado from '../pantillas/encabezado'
-
+import Cuerpo from '../pantillas/cuerpo'
+import Pie from '../pantillas/pie'
 
 const PageHome = () => {
    return(
     <inicio>
+      <Encabezado></Encabezado>
       <Cuerpo></Cuerpo>
+      <Pie></Pie> 
     </inicio>
    );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Cuerpo = () => {
+const Encabezado = () => {
   return (
     <nav
       className="custom-navbar navbar navbar-expand-lg navbar-dark fixed-top"
@@ -32,18 +32,18 @@ const Cuerpo = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="#gallary">
-              Gallary
+            <Link className="nav-link" to="#gallery">
+              Gallery
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#book-table">
-              Book-Table
+              Book Table
             </Link>
           </li>
         </ul>
         <Link className="navbar-brand m-auto" to="#">
-          <img src="assets/imgs/logo.svg" className="brand-img" alt="" />
+          <img src="../../foodhut/public_html/assets/imgs/logo.svg" className="brand-img" alt="Food Hut Logo" />
           <span className="brand-txt">Food Hut</span>
         </Link>
         <ul className="navbar-nav">
@@ -73,4 +73,4 @@ const Cuerpo = () => {
   );
 };
 
-export default Cuerpo;
+export default Encabezado;
