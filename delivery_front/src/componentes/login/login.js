@@ -40,7 +40,11 @@ const Login = () => {
                     );
                     await setLogin({usuario:usuario, token:token});
                     console.log(token);
-                    navigate("/app/home");
+                    if(usuario.rol=="admin"){
+                        navigate("/app/home")
+                    }else{
+                        navigate("/app/home2");
+                    }
                 }catch(error){
                     console.error(error);
                 }

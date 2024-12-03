@@ -10,12 +10,12 @@ const Pie = () => {
                         <p className="text-muted">foodhut@gmail.com</p>
                     </div>
                     <div className="col-sm-3">
-                        <h3>LLAMANOS</h3>
-                        <p className="text-muted">(+504) 9712-8524</p>
+                        <h3>CONTACTANOS</h3>
+                        <p className="text-muted"> 2256-7865</p>
                     </div>
                     <div className="col-sm-3">
                         <h3>UBICADOS</h3>
-                        <p className="text-muted">UNICAH Campus Jesus Sacramentado</p>
+                        <p className="text-muted">Universidad Catolica de Honduras Campus Jesus Sacramentado, Siguatepeque</p>
                     </div>
                     <div className="col-sm-3">
                     <h3>EVENTOS</h3>
