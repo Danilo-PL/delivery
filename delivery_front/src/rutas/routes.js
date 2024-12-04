@@ -6,8 +6,9 @@ import Login from "../componentes/login/login";
 import Recuperar from "../componentes/Recuperar/recuperar";
 import Actualizar from "../componentes/actualizar/actualizar";
 import Productos from "../componentes/productos/productos";
-import Empleados from "../componentes/empleado/empleado"
-import Usuario from "../componentes/usuario/usuario"
+import Empleados from "../componentes/empleado/empleado";
+import Usuario from "../componentes/usuario/usuario";
+import Pedido from "../componentes/ordenar/orden";
 import { AutenticacionRoute } from "./AutenticationRoute";
 
 export const routes = createBrowserRouter(
@@ -26,6 +27,7 @@ export const routes = createBrowserRouter(
 
             <Route path="/app" element={<AutenticacionRoute />}>
               <Route path="cajero" element={<PageHome2 />} />
+              <Route path="orden" element={<Pedido />} />
             </Route>
       
             <Route path="*" element={<Navigate to="/login" />} />
