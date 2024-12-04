@@ -7,6 +7,7 @@ import Recuperar from "../componentes/Recuperar/recuperar";
 import Actualizar from "../componentes/actualizar/actualizar";
 import Productos from "../componentes/productos/productos";
 import Empleados from "../componentes/empleado/empleado"
+import Usuario from "../componentes/usuario/usuario"
 import { AutenticacionRoute } from "./AutenticationRoute";
 
 export const routes = createBrowserRouter(
@@ -20,6 +21,7 @@ export const routes = createBrowserRouter(
               <Route path="admin" element={<PageHome />} />
               <Route path="productos" element={<Productos />} />
               <Route path="empleados" element={<Empleados />} />
+              <Route path="usuarios" element={<Usuario />} />
             </Route>
 
             <Route path="/app" element={<AutenticacionRoute />}>
