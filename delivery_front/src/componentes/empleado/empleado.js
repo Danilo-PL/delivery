@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { mostrarAlerta } from '../alerts/Alert';
+import './empleados.css';
 
 const GuardarEmpleado = () => {
     const [id, setId] = useState('');

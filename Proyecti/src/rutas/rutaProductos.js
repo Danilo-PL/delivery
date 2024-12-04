@@ -27,9 +27,6 @@ rutas.get('/',controladorProducto.inicio);
  *                   nombre:
  *                     type: string
  *                     description: Nombre del producto
- *                   descripcion:
- *                     type: string
- *                     description: Descripción del producto
  *                   precio:
  *                     type: number
  *                     format: float
@@ -37,6 +34,9 @@ rutas.get('/',controladorProducto.inicio);
  *                   stock:
  *                     type: integer
  *                     description: Cantidad disponible en stock
+ *                   categoria:
+ *                     type: string
+ *                     description: Categoría a la que pertenece el producto
  *       404:
  *         description: No se encontraron productos
  *         content:
@@ -48,7 +48,6 @@ rutas.get('/',controladorProducto.inicio);
  *                   type: string
  *                   description: Mensaje indicando que no hay productos
  */
-
 
 
 rutas.get('/listar', controladorProducto.listar);
@@ -68,25 +67,19 @@ rutas.get('/listar', controladorProducto.listar);
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nombre del producto
- *                 minLength: 3
- *                 maxLength: 50
- *               precio:
- *                 type: number
- *                 format: float
- *                 description: Precio del producto (debe ser mayor a 0)
+ *                 description: Nombre del producto (entre 3 y 50 caracteres, no puede estar en blanco)
  *               descripcion:
  *                 type: string
  *                 description: Descripción del producto (opcional)
+ *               precio:
+ *                 type: number
+ *                 description: Precio del producto
  *               stock:
  *                 type: integer
- *                 description: Cantidad disponible en stock (opcional)
- *             required:
- *               - nombre
- *               - precio
+ *                 description: Cantidad disponible en stock
  *     responses:
  *       201:
- *         description: Producto creado con éxito
+ *         description: Producto guardado con éxito
  *         content:
  *           application/json:
  *             schema:
@@ -94,19 +87,21 @@ rutas.get('/listar', controladorProducto.listar);
  *               properties:
  *                 id:
  *                   type: integer
- *                   description: Identificador único del producto creado
+ *                   description: Identificador único del producto
  *                 nombre:
  *                   type: string
  *                   description: Nombre del producto
+ *                 descripcion:
+ *                   type: string
+ *                   description: Descripción del producto
  *                 precio:
  *                   type: number
- *                   format: float
  *                   description: Precio del producto
- *                 stock:
- *                   type: integer
- *                   description: Cantidad disponible en stock
+ *                 disponible:
+ *                   type: boolean
+ *                   description: Indica si el producto está disponible
  *       400:
- *         description: Error en la validación de los datos
+ *         description: Error en los datos proporcionados (validación fallida)
  *         content:
  *           application/json:
  *             schema:
@@ -114,9 +109,9 @@ rutas.get('/listar', controladorProducto.listar);
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje detallando el error
+ *                   description: Mensaje de error indicando el problema
  *       409:
- *         description: Conflicto, el producto ya existe
+ *         description: Conflicto - El nombre del producto ya existe
  *         content:
  *           application/json:
  *             schema:
@@ -124,9 +119,8 @@ rutas.get('/listar', controladorProducto.listar);
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje indicando que el producto ya existe
+ *                   description: Mensaje de error sobre el conflicto
  */
-
 
 rutas.post('/guardar',
     body("nombre").isLength({min: 3, max: 50}).withMessage('El nombre debe tener entre 3 - 50 caracteres')
@@ -144,15 +138,14 @@ rutas.post('/guardar',
                 throw new Error('El nombre del cargo ya existe');
             }
         }
-    }),body("Precio").isFloat({min: 0.01}).withMessage('El precio no puede ser 0')
+    }),body("precio").isFloat({gt: 0}).withMessage('El precio no puede ser 0')
     .custom(async value =>{
         if(!value){
             throw new Error('El precio no permite valores nulos');
         }
     }),  
     controladorProducto.guardar);
-
-    /**
+/**
  * @swagger
  * /productos/editar:
  *   put:
@@ -164,7 +157,7 @@ rutas.post('/guardar',
  *         required: true
  *         schema:
  *           type: integer
- *         description: Identificador único del producto a editar
+ *           description: Identificador único del producto que se desea editar
  *     requestBody:
  *       required: true
  *       content:
@@ -174,25 +167,19 @@ rutas.post('/guardar',
  *             properties:
  *               nombre:
  *                 type: string
- *                 description: Nuevo nombre del producto
- *                 minLength: 3
- *                 maxLength: 50
- *               precio:
- *                 type: number
- *                 format: float
- *                 description: Nuevo precio del producto (debe ser mayor a 0)
+ *                 description: Nuevo nombre del producto (entre 3 y 50 caracteres, no puede estar en blanco)
  *               descripcion:
  *                 type: string
  *                 description: Nueva descripción del producto (opcional)
- *               stock:
- *                 type: integer
- *                 description: Nueva cantidad disponible en stock (opcional)
- *             required:
- *               - nombre
- *               - precio
+ *               precio:
+ *                 type: number
+ *                 description: Nuevo precio del producto (opcional)
+ *               disponible:
+ *                 type: boolean
+ *                 description: Indica si el producto está disponible (opcional)
  *     responses:
  *       200:
- *         description: Producto actualizado con éxito
+ *         description: Producto editado con éxito
  *         content:
  *           application/json:
  *             schema:
@@ -204,15 +191,17 @@ rutas.post('/guardar',
  *                 nombre:
  *                   type: string
  *                   description: Nombre actualizado del producto
+ *                 descripcion:
+ *                   type: string
+ *                   description: Descripción actualizada del producto
  *                 precio:
  *                   type: number
- *                   format: float
  *                   description: Precio actualizado del producto
- *                 stock:
- *                   type: integer
- *                   description: Stock actualizado del producto
+ *                 disponible:
+ *                   type: boolean
+ *                   description: Estado de disponibilidad del producto
  *       400:
- *         description: Error en la validación de los datos
+ *         description: Error en los datos proporcionados (validación fallida)
  *         content:
  *           application/json:
  *             schema:
@@ -220,9 +209,9 @@ rutas.post('/guardar',
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje detallando el error
+ *                   description: Mensaje de error indicando el problema
  *       404:
- *         description: Producto no encontrado
+ *         description: No se encontró el producto con el ID proporcionado
  *         content:
  *           application/json:
  *             schema:
@@ -230,9 +219,9 @@ rutas.post('/guardar',
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje indicando que el producto no existe
+ *                   description: Mensaje de error indicando que el ID no existe
  *       409:
- *         description: Conflicto, el nombre del producto ya existe
+ *         description: Conflicto - El nombre del producto ya existe
  *         content:
  *           application/json:
  *             schema:
@@ -240,9 +229,8 @@ rutas.post('/guardar',
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje indicando que el nombre ya está en uso
+ *                   description: Mensaje de error sobre el conflicto
  */
-
 
     rutas.put('/editar',
         query("id").isInt().withMessage("El id debe ser un entero")
@@ -276,7 +264,7 @@ rutas.post('/guardar',
                     throw new Error('El nombre del cargo ya existe');
                 }
             }
-        }),body("Precio").isFloat({min: 0.01}).withMessage('El precio no puede ser 0')
+        }),body("precio").isFloat({gt: 0}).withMessage('El precio no puede ser 0')
         .custom(async value =>{
             if(!value){
                 throw new Error('El precio no permite valores nulos');
@@ -288,7 +276,7 @@ rutas.post('/guardar',
  * @swagger
  * /productos/eliminar:
  *   delete:
- *     summary: Elimina un producto por su ID
+ *     summary: Elimina un producto existente
  *     tags: [Productos]
  *     parameters:
  *       - in: query
@@ -296,7 +284,7 @@ rutas.post('/guardar',
  *         required: true
  *         schema:
  *           type: integer
- *         description: Identificador único del producto a eliminar
+ *           description: Identificador único del producto que se desea eliminar
  *     responses:
  *       200:
  *         description: Producto eliminado con éxito
@@ -307,9 +295,9 @@ rutas.post('/guardar',
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Mensaje indicando que el producto fue eliminado
+ *                   description: Confirmación de eliminación
  *       400:
- *         description: Error en la validación del ID
+ *         description: Error en los datos proporcionados (validación fallida)
  *         content:
  *           application/json:
  *             schema:
@@ -317,9 +305,9 @@ rutas.post('/guardar',
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje detallando el error
+ *                   description: Mensaje de error indicando el problema
  *       404:
- *         description: Producto no encontrado
+ *         description: No se encontró el producto con el ID proporcionado
  *         content:
  *           application/json:
  *             schema:
@@ -327,9 +315,8 @@ rutas.post('/guardar',
  *               properties:
  *                 error:
  *                   type: string
- *                   description: Mensaje indicando que el producto no existe
+ *                   description: Mensaje de error indicando que el ID no existe
  */
-
 
     rutas.delete('/eliminar',
     query("id").isInt().withMessage("El id debe ser un entero")
