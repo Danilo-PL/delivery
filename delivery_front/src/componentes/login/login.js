@@ -40,6 +40,11 @@ const Login = () => {
                     );
                     await setLogin({usuario:usuario, token:token});
                     console.log(token);
+                    if(usuario.rol=="admin"){
+                        navigate("/app/admin")
+                    }else{
+                        navigate("/app/cajero");
+                    }
                     navigate("app/home");
                 }catch(error){
                     console.error(error);
@@ -100,6 +105,3 @@ const Login = () => {
 }
 
 export default Login;
-
-
-
