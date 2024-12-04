@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 //import './actualizar.css'; // Asegúrate de crear este archivo con los estilos
 import { mostrarAlerta } from '../alerts/Alert';
-import { useNavigate } from 'react-router-dom';
 
 const GuardarEmpleado = () => {
     const [identidad, setIdentidad] = useState('');
@@ -12,8 +11,6 @@ const GuardarEmpleado = () => {
     const [salario, setSalario] = useState('');
     const [cargo, setCargo] = useState('');
 
-    const navigate = useNavigate();
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -22,7 +19,7 @@ const GuardarEmpleado = () => {
                 return;
             }
 
-            // Aquí puedes agregar la URL de tu API que maneje la creación de un empleado
+            // Enviar los datos del nuevo empleado al servidor
             await axios.post('http://localhost:3001/api/empleados/guardar', {
                 identidad,
                 nombre,
@@ -32,9 +29,16 @@ const GuardarEmpleado = () => {
                 cargo
             });
 
+            // Mostrar alerta de éxito
             mostrarAlerta('Empleado Guardado correctamente', 'success');
-            navigate('/empleados'); // O la ruta que prefieras
 
+            // Limpiar los inputs después de guardar
+            setIdentidad('');
+            setNombre('');
+            setTelefono('');
+            setCorreo('');
+            setSalario('');
+            setCargo('');
         } catch (error) {
             console.log('Error:', error);
             mostrarAlerta('Error en la petición', 'error');
@@ -44,9 +48,9 @@ const GuardarEmpleado = () => {
     return (
         <div className="update-box">
             <div className="update-logo">
-                <a href="/">Guardar Datos del Empleado</a>
+                <a>Guardar Datos del Empleado</a>
             </div>
-            <p className="update-box-msg">Completa los campos para actualizar los datos del empleado</p>
+            <p className="update-box-msg">Completa los campos para guardar los datos del empleado</p>
             <form onSubmit={handleSubmit}>
                 <div className="input-group">
                     <input
@@ -104,8 +108,6 @@ const GuardarEmpleado = () => {
                 </div>
                 <button type="submit">Guardar Datos</button>
             </form>
-            
-        
         </div>
     );
 };
