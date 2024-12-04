@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import './actualizar.css'; // Asegúrate de crear este archivo con los estilos
 import { mostrarAlerta } from '../alerts/Alert';
 
 const GuardarEmpleado = () => {
+    const [id, setId] = useState('');
     const [identidad, setIdentidad] = useState('');
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
     const [salario, setSalario] = useState('');
     const [cargo, setCargo] = useState('');
+    const [empleados, setEmpleados] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Cargar los empleados al cargar el componente
+    useEffect(() => {
+        const fetchEmpleados = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/api/empleados/listar');
+                setEmpleados(response.data);
+            } catch (error) {
+                console.error('Error al cargar los empleados:', error);
+                mostrarAlerta('Error al cargar los empleados', 'error');
+            }
+        };
+
+        fetchEmpleados();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,20 +36,33 @@ const GuardarEmpleado = () => {
                 return;
             }
 
-            // Enviar los datos del nuevo empleado al servidor
-            await axios.post('http://localhost:3001/api/empleados/guardar', {
-                identidad,
-                nombre,
-                telefono,
-                correo,
-                salario,
-                cargo
-            });
+            if (id) {
+                // Actualizar el registro si el id está presente
+                await axios.put(`http://localhost:3001/api/empleados/editar?id=${id}`, {
+                    identidad,
+                    nombre,
+                    telefono,
+                    correo,
+                    salario,
+                    cargo,
+                });
+                mostrarAlerta('Empleado actualizado correctamente', 'success');
+            } else {
+                // Guardar un nuevo empleado si el id no está presente
+                const response = await axios.post('http://localhost:3001/api/empleados/guardar', {
+                    identidad,
+                    nombre,
+                    telefono,
+                    correo,
+                    salario,
+                    cargo,
+                });
+                setEmpleados([...empleados, response.data]);
+                mostrarAlerta('Empleado guardado correctamente', 'success');
+            }
 
-            // Mostrar alerta de éxito
-            mostrarAlerta('Empleado Guardado correctamente', 'success');
-
-            // Limpiar los inputs después de guardar
+            // Limpiar los inputs después de guardar o actualizar
+            setId('');
             setIdentidad('');
             setNombre('');
             setTelefono('');
@@ -48,10 +78,19 @@ const GuardarEmpleado = () => {
     return (
         <div className="update-box">
             <div className="update-logo">
-                <a>Guardar Datos del Empleado</a>
+                <a>Registrar Empleado</a>
             </div>
-            <p className="update-box-msg">Completa los campos para guardar los datos del empleado</p>
+            <p className="update-box-msg">Completa los campos para guardar o editar los datos del empleado</p>
             <form onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Id (Dejar vacío para agregar uno nuevo)"
+                        value={id}
+                        onChange={(e) => setId(e.target.value)}
+                    />
+                </div>
                 <div className="input-group">
                     <input
                         type="text"
@@ -106,7 +145,7 @@ const GuardarEmpleado = () => {
                         onChange={(e) => setCargo(e.target.value)}
                     />
                 </div>
-                <button type="submit">Guardar Datos</button>
+                <button type="submit">Enviar Datos</button>
             </form>
         </div>
     );
