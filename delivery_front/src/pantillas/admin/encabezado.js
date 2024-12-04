@@ -64,7 +64,7 @@ const Encabezado = () => {
           </li>
           <li className="nav-item">
             <Link to="components.html" className="btn btn-primary ml-xl-4">
-              Components
+              Salir
             </Link>
           </li>
         </ul>
