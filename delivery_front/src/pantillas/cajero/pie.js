@@ -7,7 +7,7 @@ const Pie = () => {
                 <div className="row">
                     <div className="col-sm-3">
                         <h3>CORREO</h3>
-                        <p className="text-muted">foodhut@gmail.com</p>
+                        <p className="text-muted">delivery@gmail.com</p>
                     </div>
                     <div className="col-sm-3">
                         <h3>CONTACTANOS</h3>

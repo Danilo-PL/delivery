@@ -9,7 +9,6 @@ const RegistrarVenta = () => {
   const [isv, setIsv] = useState(0.15);  // ISV (ejemplo: 15%)
   const [descuento, setDescuento] = useState(0); // Descuento en porcentaje
   const [productoId, setProductoId] = useState("");
-  const [productos, setProductos] = useState([]);
   const [total, setTotal] = useState(0);  // Total de la venta
   const [totalImpuesto, setTotalImpuesto] = useState(0);  // Total del ISV
 
@@ -57,8 +56,8 @@ const RegistrarVenta = () => {
   // Mostrar total y total del impuesto
   const mostrarTotalVenta = (total, totalImpuesto) => (
     <div>
-      <p>Total Impuesto (ISV): ${totalImpuesto.toFixed(2)}</p>
-      <p>Total Venta: ${total.toFixed(2)}</p>
+      <p>Total Impuesto (ISV): Lps{totalImpuesto.toFixed(2)}</p>
+      <p>Total Venta: Lps{total.toFixed(2)}</p>
     </div>
   );
 
@@ -98,14 +97,14 @@ const RegistrarVenta = () => {
             required
           />
         </div>
-
+        {/* Mostrar los cálculos del total y el impuesto */}
+      {total > 0 && mostrarTotalVenta(total, totalImpuesto)}
         <button type="submit" className="btn btn-primary">
           Ordenar
         </button>
       </form>
 
-      {/* Mostrar los cálculos del total y el impuesto */}
-      {total > 0 && mostrarTotalVenta(total, totalImpuesto)}
+      
     </div>
   );
 };
