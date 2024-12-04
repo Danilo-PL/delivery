@@ -41,9 +41,9 @@ const Login = () => {
                     await setLogin({usuario:usuario, token:token});
                     console.log(token);
                     if(usuario.rol=="admin"){
-                        navigate("/app/home")
+                        navigate("/app/admin")
                     }else{
-                        navigate("/app/home2");
+                        navigate("/app/cajero");
                     }
                 }catch(error){
                     console.error(error);

@@ -1,8 +1,8 @@
 import React from 'react';
-import Encabezado from '../pantillas/encabezado'
-import Cuerpo from '../pantillas/cuerpo'
-import Productos from '../pantillas/productos'
-import Pie from '../pantillas/pie'
+import Encabezado from '../pantillas/admin/encabezado'
+import Cuerpo from '../pantillas/admin/cuerpo'
+import Productos from '../pantillas/admin/productos'
+import Pie from '../pantillas/admin/pie'
 
 const PageHome = () => {
    return(
