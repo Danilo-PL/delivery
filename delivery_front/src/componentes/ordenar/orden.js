@@ -100,7 +100,7 @@ const RegistrarVenta = () => {
         </div>
 
         <button type="submit" className="btn btn-primary">
-          Registrar Venta
+          Ordenar
         </button>
       </form>
 
