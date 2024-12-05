@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 import { mostrarAlerta } from "../alerts/Alert";
-//import './venta.css';
 
 const RegistrarVenta = () => {
   const [cantidad, setCantidad] = useState("");
@@ -9,13 +8,27 @@ const RegistrarVenta = () => {
   const [isv, setIsv] = useState(0.15);  // ISV (ejemplo: 15%)
   const [descuento, setDescuento] = useState(0); // Descuento en porcentaje
   const [productoId, setProductoId] = useState("");
+  const [productoInfo, setProductoInfo] = useState(null); // Detalles del producto buscado
   const [total, setTotal] = useState(0);  // Total de la venta
   const [totalImpuesto, setTotalImpuesto] = useState(0);  // Total del ISV
+
+  const buscarProducto = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/productos/buscar?=${id}`);
+      setProductoInfo(response.data);
+      setPrecioUnitario(response.data.precio_unitario); // Mostrar el precio en el input
+      mostrarAlerta("Producto encontrado.", "success");
+    } catch (error) {
+      console.error("Error al buscar el producto:", error);
+      mostrarAlerta("Producto no encontrado.", "warning");
+      setProductoInfo(null);
+      setPrecioUnitario(""); // Limpiar el precio si no se encuentra el producto
+    }
+  };
 
   const handleRegistrarVenta = async (e) => {
     e.preventDefault();
 
-    // Validación de los campos
     const cantidadInt = parseInt(cantidad, 10);
     const precioFloat = parseFloat(precioUnitario);
     const descuentoFloat = parseFloat(descuento);
@@ -25,12 +38,10 @@ const RegistrarVenta = () => {
       return;
     }
 
-    // Calcular subtotal, ISV y total
     const subtotal = cantidadInt * precioFloat;
-    const impuesto = subtotal * isv;  // Total del ISV
-    const totalConDescuento = subtotal + impuesto - (subtotal * descuentoFloat / 100);  // Total con descuento
+    const impuesto = subtotal * isv;
+    const totalConDescuento = subtotal + impuesto - (subtotal * descuentoFloat / 100);
 
-    // Establecer los valores del total y el impuesto
     setTotal(totalConDescuento);
     setTotalImpuesto(impuesto);
 
@@ -39,9 +50,9 @@ const RegistrarVenta = () => {
         cantidad: cantidadInt,
         precio_unitario: precioFloat,
         isv: isv,
-        descuento: descuentoFloat / 100,  // Convertir a decimal
+        descuento: descuentoFloat / 100,
         productoId,
-        fecha: new Date(),  // Enviar la fecha actual
+        fecha: new Date(),
         total: totalConDescuento,
       });
 
@@ -53,7 +64,17 @@ const RegistrarVenta = () => {
     }
   };
 
-  // Mostrar total y total del impuesto
+  const handleProductoIdChange = (e) => {
+    const id = e.target.value;
+    setProductoId(id);
+    if (id) {
+      buscarProducto(id); // Buscar el producto cuando se ingresa un ID
+    } else {
+      setProductoInfo(null); // Limpiar información si se borra el ID
+      setPrecioUnitario(""); // Limpiar precio si se borra el ID
+    }
+  };
+
   const mostrarTotalVenta = (total, totalImpuesto) => (
     <div>
       <p>Total Impuesto (ISV): Lps{totalImpuesto.toFixed(2)}</p>
@@ -69,6 +90,15 @@ const RegistrarVenta = () => {
 
       <form onSubmit={handleRegistrarVenta} className="venta-form">
         <div className="input-group">
+        <div className="input-group">
+          <input
+            className="form-control"
+            placeholder="Producto Id"
+            value={productoId}
+            onChange={handleProductoIdChange}
+            required
+          />
+        </div>
           <input
             type="number"
             className="form-control"
@@ -85,26 +115,19 @@ const RegistrarVenta = () => {
             placeholder="Precio Unitario"
             value={precioUnitario}
             onChange={(e) => setPrecioUnitario(e.target.value)}
-            required
+            disabled // El campo es solo lectura cuando se encuentra el producto
           />
         </div>
-        <div className="input-group">
-          <input
-            className="form-control"
-            placeholder="Producto Id"
-            value={productoId}
-            onChange={(e) => setProductoId(e.target.value)}
-            required
-          />
-        </div>
-        {/* Mostrar los cálculos del total y el impuesto */}
-      {total > 0 && mostrarTotalVenta(total, totalImpuesto)}
+        {productoInfo && (
+          <div className="producto-nombre">
+            {productoInfo.nombre}
+          </div>
+        )}
+        {total > 0 && mostrarTotalVenta(total, totalImpuesto)}
         <button type="submit" className="btn btn-primary">
           Ordenar
         </button>
       </form>
-
-      
     </div>
   );
 };

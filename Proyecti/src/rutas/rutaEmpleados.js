@@ -368,4 +368,113 @@ rutas.post('/guardar',
         }
     }),
     controladorEmpleado.eliminar);
+
+    /**
+ * @swagger
+ * /empleados/buscar:
+ *   get:
+ *     summary: Busca un empleado por su ID
+ *     tags: [Empleados]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *             type: object
+ *             properties:
+  *           type: integer
+ *           description: Identificador único del empleado
+ *     responses:
+ *       200:
+ *         description: Empleado encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   description: 1 si se encontró el empleado, 0 si no.
+ *                 datos:
+ *                   type: object
+ *                   description: Objeto con los datos del empleado (o null si no se encontró).  La estructura depende de tu modelo de Empleado.  Ejemplo:
+ *                   example: 
+ *                     nombre: "Empleado Ejemplo"
+ *                     descripcion: "Descripción del empleado"
+ *                     // ... otros campos de tu modelo Empleado
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: Mensajes de la operación.  Puede estar vacío si todo está correcto.
+ *       400:
+ *         description: Error en los datos proporcionados (validación fallida)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["El ID debe ser un entero"]
+ *                 datos:
+ *                   type: null
+ *       404:
+ *         description: Empleado no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["Empleado no encontrado"]
+ *                 datos:
+ *                   type: null
+ *       500:
+ *         description: Error en el servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["Error en el servidor"]
+ *                 datos:
+ *                   type: null
+ */
+    rutas.get('/buscar',
+        query("id").isInt().withMessage("El id debe ser un entero")
+        .custom(async value =>{
+            if(!value){
+                throw new Error('El id no permite valores nulos');
+            }
+            else{
+                const buscarCargo = await ModeloEmpleado.findOne({
+                    where: {
+                        id: value
+                    }
+                });
+                if(!buscarCargo){
+                    throw new Error('El id del cargo no existe');
+                }
+            }
+        }),
+        controladorEmpleado.buscar);
 module.exports = rutas;

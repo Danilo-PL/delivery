@@ -8,7 +8,7 @@ const Cuerpo = () => {
     navigate("/productos")
   }
   return (
-    <header id="home2" class="header">
+    <header id="home" class="header">
       
         <div class="overlay text-white text-center">
             <h1 class="display-2 font-weight-bold my-3">Delivery</h1>

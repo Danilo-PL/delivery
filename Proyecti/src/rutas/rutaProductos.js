@@ -336,4 +336,114 @@ rutas.post('/guardar',
         }
     }),
     controladorProducto.eliminar);
+
+/**
+ * @swagger
+ * /productos/buscar:
+ *   get:
+ *     summary: Busca un producto por su ID
+ *     tags: [Productos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *             type: object
+ *             properties:
+  *           type: integer
+ *           description: Identificador único del producto
+ *     responses:
+ *       200:
+ *         description: Producto encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   description: 1 si se encontró el producto, 0 si no.
+ *                 datos:
+ *                   type: object
+ *                   description: Objeto con los datos del producto (o null si no se encontró).  La estructura depende de tu modelo de Producto.  Ejemplo:
+ *                   example: 
+ *                     nombre: "Producto Ejemplo"
+ *                     precio: 19.99
+ *                     descripcion: "Descripción del producto"
+ *                     // ... otros campos de tu modelo Producto
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   description: Mensajes de la operación.  Puede estar vacío si todo está correcto.
+ *       400:
+ *         description: Error en los datos proporcionados (validación fallida)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["El ID debe ser un entero"]
+ *                 datos:
+ *                   type: null
+ *       404:
+ *         description: Producto no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["Producto no encontrado"]
+ *                 datos:
+ *                   type: null
+ *       500:
+ *         description: Error en el servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 tipo:
+ *                   type: integer
+ *                   example: 0
+ *                 msj:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["Error en el servidor"]
+ *                 datos:
+ *                   type: null
+ */
+    rutas.get('/buscar',
+        query("id").isInt().withMessage("El id debe ser un entero")
+        .custom(async value =>{
+            if(!value){
+                throw new Error('El id no permite valores nulos');
+            }
+            else{
+                const buscarCargo = await ModeloProducto.findOne({
+                    where: {
+                        id: value
+                    }
+                });
+                if(!buscarCargo){
+                    throw new Error('El id del cargo no existe');
+                }
+            }
+        }),
+        controladorProducto.buscar);
 module.exports = rutas;

@@ -139,3 +139,12 @@ body {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
   }
   
+  .product-form input,
+.product-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff; /* Fondo blanco */
+}

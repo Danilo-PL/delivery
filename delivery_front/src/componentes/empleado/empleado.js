@@ -12,14 +12,18 @@ const GuardarEmpleado = () => {
     const [salario, setSalario] = useState('');
     const [cargo, setCargo] = useState('');
     const [empleados, setEmpleados] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
 
     // Cargar los empleados al cargar el componente
     useEffect(() => {
         const fetchEmpleados = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/api/empleados/listar');
-                setEmpleados(response.data);
+                if (Array.isArray(response.data)) {
+                    setEmpleados(response.data);
+                } else {
+                    console.error("La respuesta no es un arreglo:", response.data);
+                    mostrarAlerta("Error en los datos recibidos de la API.", "error");
+                }
             } catch (error) {
                 console.error('Error al cargar los empleados:', error);
                 mostrarAlerta('Error al cargar los empleados', 'error');
@@ -62,6 +66,10 @@ const GuardarEmpleado = () => {
                 mostrarAlerta('Empleado guardado correctamente', 'success');
             }
 
+            // Recargar empleados
+            const response = await axios.get('http://localhost:3001/api/empleados/listar');
+            setEmpleados(response.data);
+
             // Limpiar los inputs después de guardar o actualizar
             setId('');
             setIdentidad('');
@@ -77,77 +85,132 @@ const GuardarEmpleado = () => {
     };
 
     return (
-        <div className="update-box">
-            <div className="update-logo">
-                <a>Registrar Empleado</a>
+        <div className="employee-box">
+            <div className="employee-header">
+                <h1>Gestión de Empleados</h1>
+                <p className="employee-box-msg">Completa los campos para guardar o editar los datos de un empleado</p>
             </div>
-            <p className="update-box-msg">Completa los campos para guardar o editar los datos del empleado</p>
-            <form onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Id (Dejar vacío para agregar uno nuevo)"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                    />
+
+            <div className="employee-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {/* Formulario de registro */}
+                <form
+                    className="employee-form"
+                    onSubmit={handleSubmit}
+                    style={{ flex: '1', marginRight: '20px' }}
+                >
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Id (Dejar vacío para agregar uno nuevo)"
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Identidad"
+                            value={identidad}
+                            onChange={(e) => setIdentidad(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Nombre"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Teléfono"
+                            value={telefono}
+                            onChange={(e) => setTelefono(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Correo"
+                            value={correo}
+                            onChange={(e) => setCorreo(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Salario"
+                            value={salario}
+                            onChange={(e) => setSalario(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Cargo"
+                            value={cargo}
+                            onChange={(e) => setCargo(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                        Enviar datos
+                    </button>
+                </form>
+
+                {/* Tabla de empleados */}
+                <div className="employee-table" style={{ flex: '2' }}>
+                    <h3>Lista de Empleados</h3>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Identidad</th>
+                                <th>Nombre</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Salario</th>
+                                <th>Cargo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {empleados.length > 0 ? (
+                                empleados.map((empleado) => (
+                                    <tr key={empleado.id}>
+                                        <td>{empleado.id}</td>
+                                        <td>{empleado.identidad}</td>
+                                        <td>{empleado.nombre}</td>
+                                        <td>{empleado.telefono}</td>
+                                        <td>{empleado.correo}</td>
+                                        <td>{empleado.salario}</td>
+                                        <td>{empleado.cargo}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="text-center">
+                                        No hay empleados registrados.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Identidad"
-                        value={identidad}
-                        onChange={(e) => setIdentidad(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Nombre"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Teléfono"
-                        value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Correo"
-                        value={correo}
-                        onChange={(e) => setCorreo(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Salario"
-                        value={salario}
-                        onChange={(e) => setSalario(e.target.value)}
-                    />
-                </div>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Cargo"
-                        value={cargo}
-                        onChange={(e) => setCargo(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Enviar Datos</button>
-            </form>
+            </div>
         </div>
     );
 };

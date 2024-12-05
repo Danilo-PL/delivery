@@ -1,81 +1,45 @@
-.update-box {
-    max-width: 400px;
-    margin: 50px auto;
+/* Formulario */
+.employee-form {
+    background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    font-family: Arial, sans-serif;
-}
-
-.update-logo {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.update-box-msg {
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.input-group {
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  .employee-form .input-group {
     margin-bottom: 15px;
-}
-
-.input-group input {
+  }
+  
+  .employee-form .form-control {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff; /* Fondo blanco */
+    color: #333; /* Texto en gris oscuro */
+  }
+  
+  .employee-form .form-control:focus {
     outline: none;
-    background-color: #ffffff; /* Fondo blanco */
-    color: #333; /* Texto en negro */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.input-group input:focus {
-    border-color: #007bff; /* Borde azul al hacer foco */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Sombra sutil al foco */
-}
-
-button {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+    background-color: #fff; /* Mantener fondo blanco al enfocarse */
+  }
+  
+  .employee-form .btn-primary {
     width: 100%;
-    padding: 12px;
-    background-color: #ff214f;
-    color: white;
+    padding: 10px;
+    background-color: #007bff;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3; /* Cambio de color en hover */
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-form input[type="number"]::-webkit-outer-spin-button,
-form input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+  }
+  
+  .employee-form .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
