@@ -153,7 +153,12 @@ rutas.post('/guardar',
                 throw new Error('La placa ya existe');
             }
         }
-    }), 
+    }),body("vehiculo_descripcion").isLength({min: 4}).withMessage('La descripcion debe contener minimo 4 caracteres')
+    .custom(async value =>{
+        if(!value){
+            throw new Error('La descripcion  no permite valores nulos');
+        }
+    }),body("vehiculo_marca").optional(),
     controladorVehiculo.guardar);
 /**
  * @swagger
