@@ -1,145 +1,56 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container-fluid {
-    padding: 20px;
-  }
-  
-  /* Estilo del contenedor del formulario y tabla */
-  .product-box {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-header {
-    flex: 1 100%;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .product-header h1 {
-    color: #333;
-    font-size: 28px;
-  }
-  
-  .product-box-msg {
-    color: #777;
-    font-size: 16px;
-  }
-  
-  /* Estilo del formulario */
-  .product-form {
-    flex: 1 1 45%;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  .product-form .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .product-form input,
-  .product-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #fff;
-  }
-  
-  .product-form input:focus,
-  .product-form textarea:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  }
-  
-  .product-form button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  .product-form button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Estilo de la tabla */
-  .product-table {
-    flex: 1 1 50%;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  .product-table table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .product-table th,
-  .product-table td {
-    padding: 12px;
-    text-align: left;
-    font-size: 16px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .product-table th {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .product-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .product-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Barra de búsqueda */
-  .product-search {
-    margin-bottom: 20px;
-  }
-  
-  .product-search input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #fff;
-  }
-  
-  .product-search input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  }
-  
-  .product-form input,
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+/* Estilo del contenedor del formulario y tabla */
+.product-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.product-header {
+  flex: 1 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-header h1 {
+  color: #333;
+  font-size: 28px;
+}
+
+.product-box-msg {
+  color: #777;
+  font-size: 16px;
+}
+
+/* Estilo del formulario */
+.product-form {
+  flex: 1 1 45%;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.product-form .input-group {
+  margin-bottom: 15px;
+}
+
+/* Estilo de los inputs y textarea con fondo blanco en todos los estados */
+.product-form input,
 .product-form textarea {
   width: 100%;
   padding: 10px;
@@ -147,4 +58,87 @@ body {
   border-radius: 5px;
   font-size: 16px;
   background-color: #fff; /* Fondo blanco */
+  color: #333; /* Texto en color oscuro para mejor contraste */
+}
+
+/* Enfocar los inputs sin cambiar el fondo */
+.product-form input:focus,
+.product-form textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Bordes azules al enfocarse */
+  background-color: #fff; /* Mantener fondo blanco */
+  box-shadow: none; /* Evitar sombra al enfocarse */
+}
+
+.product-form button {
+  background-color: #ff214f;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.product-form button:hover {
+  background-color: #FF8882;
+}
+
+/* Estilo de la tabla */
+.product-table {
+  flex: 1 1 50%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.product-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-table th {
+  background-color: #F85C70;
+  color: white;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Barra de búsqueda */
+.product-search {
+  margin-bottom: 20px;
+}
+
+.product-search input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff; /* Fondo blanco */
+  color: #333;
+}
+
+.product-search input:focus {
+  outline: none;
+  border-color: #ff214f;
+  background-color: #fff; /* Mantener fondo blanco */
+  box-shadow: none;
 }
