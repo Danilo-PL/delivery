@@ -174,7 +174,7 @@ rutas.post('/guardar',
 
 /**
  * @swagger
- * /Empleados/editar:
+ * /empleados/editar:
  *   put:
  *     summary: Edita un empleado existente
  *     tags: [Empleados]
@@ -304,7 +304,7 @@ rutas.post('/guardar',
     
 /**
  * @swagger
- * /Empleados/eliminar:
+ * /empleados/eliminar:
  *   delete:
  *     summary: Elimina un empleado existente
  *     tags: [Empleados]

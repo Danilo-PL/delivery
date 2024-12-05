@@ -11,13 +11,15 @@ const GProducto = () => {
   const [stock, setStock] = useState("");
   const [productos, setProductos] = useState([]);
 
+  // Realizamos la petición para obtener los productos cuando el componente se monta
   useEffect(() => {
     fetchProductos();
-  }, []);
+  }, []); // El array vacío asegura que solo se ejecute una vez cuando el componente se monte
 
   const fetchProductos = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/productos");
+      // Realizamos la solicitud GET para obtener los productos
+      const response = await axios.get("http://localhost:3001/api/productos/listar");
       console.log(response.data); // Para verificar la respuesta
       setProductos(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
@@ -170,33 +172,32 @@ const GProducto = () => {
             </tr>
           </thead>
           <tbody>
-  {productos.length > 0 ? (
-    productos.map((producto) => (
-      <tr key={producto.id}>
-        <td>{producto.id}</td>
-        <td>{producto.nombre}</td>
-        <td>{producto.descripcion}</td>
-        <td>{producto.precio}</td>
-        <td>{producto.stock}</td>
-        <td>
-          <button
-            className="btn btn-warning btn-sm"
-            onClick={() => handleEditar(producto)}
-          >
-            Editar
-          </button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="6" className="text-center">
-        No hay productos disponibles.
-      </td>
-    </tr>
-  )}
-</tbody>
-
+            {productos.length > 0 ? (
+              productos.map((producto) => (
+                <tr key={producto.id}>
+                  <td>{producto.id}</td>
+                  <td>{producto.nombre}</td>
+                  <td>{producto.descripcion}</td>
+                  <td>{producto.precio}</td>
+                  <td>{producto.stock}</td>
+                  <td>
+                    <button
+                      className="btn btn-warning btn-sm"
+                      onClick={() => handleEditar(producto)}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No hay productos disponibles.
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>
