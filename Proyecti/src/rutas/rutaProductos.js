@@ -129,13 +129,13 @@ rutas.post('/guardar',
             throw new Error('El nombre no permite valores nulos');
         }
         else{
-            const buscarCargo = await ModeloProducto.findOne({
+            const buscarproducto = await ModeloProducto.findOne({
                 where: {
                     nombre: value
                 }
             });
-            if(buscarCargo){
-                throw new Error('El nombre del cargo ya existe');
+            if(buscarproducto){
+                throw new Error('El nombre del producto ya existe');
             }
         }
     }),body("precio").isFloat({gt: 0}).withMessage('El precio no puede ser 0')
@@ -240,32 +240,17 @@ rutas.post('/guardar',
                 throw new Error('El nombre no permite valores nulos');
             }
             else{
-                const buscarCargo = await ModeloProducto.findOne({
+                const buscarproducto = await ModeloProducto.findOne({
                     where: {
                         id: value
                     }
                 });
-                if(!buscarCargo){
-                    throw new Error('El id del cargo no existe');
+                if(!buscarproducto){
+                    throw new Error('El id del producto no existe');
                 }
             }
         }),
-        body("nombre").isLength({min: 3, max: 50}).withMessage('El nombre debe tener entre 3 - 50 caracteres')
-        .custom(async value =>{
-            if(!value){
-                throw new Error('El nombre no permite valores nulos');
-            }
-            else{
-                const buscarCargo = await ModeloProducto.findOne({
-                    where: {
-                        nombre: value
-                    }
-                });
-                if(buscarCargo){
-                    throw new Error('El nombre del cargo ya existe');
-                }
-            }
-        }),body("precio").isFloat({gt: 0}).withMessage('El precio no puede ser 0')
+        body("precio").isFloat({gt: 0}).withMessage('El precio no puede ser 0')
         .custom(async value =>{
             if(!value){
                 throw new Error('El precio no permite valores nulos');
@@ -326,12 +311,12 @@ rutas.post('/guardar',
             throw new Error('El nombre no permite valores nulos');
         }
         else{
-            const buscarCargo = await ModeloProducto.findOne({
+            const buscarproducto = await ModeloProducto.findOne({
                 where: {
                     id: value
                 }
             });
-            if(!buscarCargo){
+            if(!buscarproducto){
                 throw new Error('El id del cargo no existe');
             }
         }
@@ -400,12 +385,12 @@ rutas.post('/guardar',
                 throw new Error('El id no permite valores nulos');
             }
             else{
-                const buscarCargo = await ModeloProducto.findOne({
+                const buscarproducto = await ModeloProducto.findOne({
                     where: {
                         id: value
                     }
                 });
-                if(!buscarCargo){
+                if(!buscarproducto){
                     throw new Error('El id del cargo no existe');
                 }
             }

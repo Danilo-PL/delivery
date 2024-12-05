@@ -18,15 +18,17 @@ const GuardarEmpleado = () => {
         const fetchEmpleados = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/api/empleados/listar');
-                setEmpleados(response.data);
+                console.log(response);
+                setEmpleados(response.data.datos); // Access the 'datos' array
             } catch (error) {
                 console.log('Error al cargar empleados:', error);
                 mostrarAlerta('Error al cargar la lista de empleados', 'error');
             }
         };
-
+    
         fetchEmpleados();
-    }, []);  // El arreglo vacío asegura que solo se ejecute una vez cuando se monte el componente
+    }, []);
+      // El arreglo vacío asegura que solo se ejecute una vez cuando se monte el componente
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -183,25 +185,26 @@ const GuardarEmpleado = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {empleados.length > 0 ? (
-                                    empleados.map((empleado) => (
-                                        <tr key={empleado.id}>
-                                            <td>{empleado.id}</td>
-                                            <td>{empleado.identidad}</td>
-                                            <td>{empleado.nombre}</td>
-                                            <td>{empleado.telefono}</td>
-                                            <td>{empleado.correo}</td>
-                                            <td>{empleado.salario}</td>
-                                            <td>{empleado.cargo}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="7" className="text-center">
-                                            No hay empleados registrados.
-                                        </td>
-                                    </tr>
-                                )}
+                            {empleados?.length > 0 ? (
+    empleados.map((empleado) => (
+        <tr key={empleado.id}>
+            <td>{empleado.id}</td>
+            <td>{empleado.identidad}</td>
+            <td>{empleado.nombre}</td>
+            <td>{empleado.telefono}</td>
+            <td>{empleado.correo}</td>
+            <td>{empleado.salario}</td>
+            <td>{empleado.cargo}</td>
+        </tr>
+    ))
+) : (
+    <tr>
+        <td colSpan="7" className="text-center">
+            No hay empleados registrados.
+        </td>
+    </tr>
+)}
+
                             </tbody>
                         </table>
                     </div>
