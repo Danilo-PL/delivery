@@ -58,7 +58,7 @@ body {
   border-radius: 5px;
   font-size: 16px;
   background-color: #fff; /* Fondo blanco */
-  color: #333; /* Texto en color oscuro para mejor contraste */
+  color: #000000; /* Texto en color oscuro para mejor contraste */
 }
 
 /* Enfocar los inputs sin cambiar el fondo */

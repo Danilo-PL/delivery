@@ -23,22 +23,22 @@ const Encabezado = () => {
         <ul className="navbar-nav">
           <li className="nav-item">
             <Link className="nav-link" to="#home">
-              Home
+              
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#about">
-              About
+              
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#gallery">
-              Gallery
+              
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#book-table">
-              Book Table
+              
             </Link>
           </li>
         </ul>
@@ -49,17 +49,17 @@ const Encabezado = () => {
         <ul className="navbar-nav">
           <li className="nav-item">
             <Link className="nav-link" to="#blog">
-              Blog<span className="sr-only">(current)</span>
+              <span className="sr-only">(current)</span>
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#testmonial">
-              Reviews
+              
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#contact">
-              Contact Us
+              
             </Link>
           </li>
           <li className="nav-item">

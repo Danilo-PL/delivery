@@ -10,11 +10,6 @@ const Productos = () => {
       <div className="gallary row">
         {Array.from({ length: 12 }, (_, index) => (
           <div key={index} className="col-sm-6 col-lg-3 gallary-item wow fadeIn">
-            <img
-              src={`../../foodhut/public_html/assets/imgs/gallary-${index + 1}.jpg`}
-              alt={`Gallery ${index + 2}`}
-              className="gallary-img"
-            />
             <a href="#" className="gallary-overlay">
               <i className="gallary-icon ti-plus"></i>
             </a>

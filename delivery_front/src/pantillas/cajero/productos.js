@@ -25,23 +25,16 @@ const Productos = () => {
   return (
     <div>
       <div id="gallary" className="text-center bg-dark text-light has-height-md middle-items wow fadeIn">
-        <h2 className="section-title">NUESTRO MENÚ</h2>
+        <h2 className="section-title"></h2>
       </div>
-      <div className="container mt-4">
-        <div className="row">
-          {productos.map((producto) => (
-            <div key={producto.id} className="col-sm-6 col-lg-3 mb-4">
-              <div className="card shadow-sm">
-                <div className="card-body text-center">
-                  <h5 className="card-title">{producto.nombre}</h5>
-                  <p className="card-text text-primary font-weight-bold">
-                    Lps {producto.precio.toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="gallary row">
+        {Array.from({ length: 12 }, (_, index) => (
+          <div key={index} className="col-sm-6 col-lg-3 gallary-item wow fadeIn">
+            <a href="#" className="gallary-overlay">
+              <i className="gallary-icon ti-plus"></i>
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   );

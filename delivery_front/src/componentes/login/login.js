@@ -45,7 +45,6 @@ const Login = () => {
                     }else{
                         navigate("/app/cajero");
                     }
-                    navigate("app/home");
                 }catch(error){
                     console.error(error);
                 }

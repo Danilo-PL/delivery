@@ -22,25 +22,21 @@ const Encabezado = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="#home">
-              Home
-            </Link>
+            <a className="nav-link" href="productos">
+              Registrar Productos
+            </a>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="#about">
-              About
-            </Link>
+            <a className="nav-link" href="empleados">
+              Registrar Empleados
+            </a>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="#gallery">
-              Gallery
-            </Link>
+            <a className="nav-link" href="usuarios">
+              Registar Usuario
+            </a>
           </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="#book-table">
-              Book Table
-            </Link>
-          </li>
+          
         </ul>
         <Link className="navbar-brand m-auto" to="#">
           <img src="../../foodhut/public_html/assets/imgs/logo.svg" className="brand-img" alt="Food Hut Logo" />
@@ -49,17 +45,17 @@ const Encabezado = () => {
         <ul className="navbar-nav">
           <li className="nav-item">
             <Link className="nav-link" to="#blog">
-              Blog<span className="sr-only">(current)</span>
+              <span className="sr-only">(current)</span>
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#testmonial">
-              Reviews
+              
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#contact">
-              Contact Us
+             
             </Link>
           </li>
           <li className="nav-item">
