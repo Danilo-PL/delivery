@@ -110,17 +110,7 @@ rutas.post('/guardar',
     body("total").isFloat({gt: 0}).withMessage('monto no puede ser 0')
     .custom(async value =>{
         if(!value){
-            throw new Error('El nombre no permite valores nulos');
-        }
-        else{
-            const buscarCargo = await ModeloVenta.findOne({
-                where: {
-                    nombre: value
-                }
-            });
-            if(buscarCargo){
-                throw new Error('El nombre del cargo ya existe');
-            }
+            throw new Error('El monto no permite valores nulos');
         }
     }), 
     controladorVenta.guardar);
@@ -188,7 +178,7 @@ rutas.post('/guardar',
         query("id").isInt().withMessage("El id debe ser un entero")
         .custom(async value =>{
             if(!value){
-                throw new Error('El nombre no permite valores nulos');
+                throw new Error('El id no permite valores nulos');
             }
             else{
                 const buscarCargo = await ModeloVenta.findOne({
@@ -204,17 +194,7 @@ rutas.post('/guardar',
         body("total").isFloat({gt: 0}).withMessage('monto no puede ser 0')
         .custom(async value =>{
             if(!value){
-                throw new Error('El nombre no permite valores nulos');
-            }
-            else{
-                const buscarCargo = await ModeloVenta.findOne({
-                    where: {
-                        nombre: value
-                    }
-                });
-                if(buscarCargo){
-                    throw new Error('El nombre del cargo ya existe');
-                }
+                throw new Error('El monto no permite valores nulos');
             }
         }), 
         controladorVenta.editar);

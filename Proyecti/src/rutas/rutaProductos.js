@@ -145,6 +145,7 @@ rutas.post('/guardar',
         }
     }),  
     controladorProducto.guardar);
+
 /**
  * @swagger
  * /productos/editar:
@@ -344,14 +345,12 @@ rutas.post('/guardar',
  *     summary: Busca un producto por su ID
  *     tags: [Productos]
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: id
  *         required: true
  *         schema:
- *             type: object
- *             properties:
-  *           type: integer
- *           description: Identificador único del producto
+ *           type: integer
+ *           description: Identificador único del producto que se desea eliminar
  *     responses:
  *       200:
  *         description: Producto encontrado
@@ -363,19 +362,6 @@ rutas.post('/guardar',
  *                 tipo:
  *                   type: integer
  *                   description: 1 si se encontró el producto, 0 si no.
- *                 datos:
- *                   type: object
- *                   description: Objeto con los datos del producto (o null si no se encontró).  La estructura depende de tu modelo de Producto.  Ejemplo:
- *                   example: 
- *                     nombre: "Producto Ejemplo"
- *                     precio: 19.99
- *                     descripcion: "Descripción del producto"
- *                     // ... otros campos de tu modelo Producto
- *                 msj:
- *                   type: array
- *                   items:
- *                     type: string
- *                   description: Mensajes de la operación.  Puede estar vacío si todo está correcto.
  *       400:
  *         description: Error en los datos proporcionados (validación fallida)
  *         content:
@@ -383,50 +369,29 @@ rutas.post('/guardar',
  *             schema:
  *               type: object
  *               properties:
- *                 tipo:
- *                   type: integer
- *                   example: 0
- *                 msj:
+ *                 error:
  *                   type: array
- *                   items:
- *                     type: string
- *                   example: ["El ID debe ser un entero"]
- *                 datos:
- *                   type: null
+ *                   description: Array de mensajes de error de validación
  *       404:
- *         description: Producto no encontrado
+ *         description: Usuario o contraseña incorrecto
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 tipo:
- *                   type: integer
- *                   example: 0
- *                 msj:
- *                   type: array
- *                   items:
- *                     type: string
- *                   example: ["Producto no encontrado"]
- *                 datos:
- *                   type: null
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje indicando que el usuario o contraseña es incorrecto
  *       500:
- *         description: Error en el servidor
+ *         description: Error en el servidor al iniciar sesión
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 tipo:
- *                   type: integer
- *                   example: 0
- *                 msj:
- *                   type: array
- *                   items:
- *                     type: string
- *                   example: ["Error en el servidor"]
- *                 datos:
- *                   type: null
+ *                 error:
+ *                   type: string
+ *                   description: Mensaje de error indicando el problema en el servidor
  */
     rutas.get('/buscar',
         query("id").isInt().withMessage("El id debe ser un entero")
