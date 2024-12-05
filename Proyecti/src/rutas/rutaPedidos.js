@@ -112,7 +112,7 @@ rutas.get('/listar', controladorPedidos.listar);
 rutas.post('/guardar',
     body("estado").isLength({min: 3, max: 20}).withMessage('El nombre debe tener entre 3 - 20 caracteres'),
     body("fecha").isDate({ format: 'YYYY-MM-DD' }).withMessage('La fecha debe tener un formato válido (YYYY-MM-DD)'),
-    body("total").isFloat({ min: 0 }) .withMessage('El total debe ser un número decimal válido mayor o igual a 0')
+    body("total").isFloat({gt: 0}) .withMessage('El total debe ser un número decimal válido mayor o igual a 0')
     /*.custom(async value =>{
         if(!value){
             throw new Error('El nombre no permite valores nulos');
@@ -205,7 +205,7 @@ rutas.post('/guardar',
         })*/,
         body("estado").isLength({min: 3, max: 20}).isOptional().withMessage('El nombre debe tener entre 3 - 20 caracteres'),
         body("fecha").isDate({ format: 'YYYY-MM-DD' }).isOptional().withMessage('La fecha debe tener un formato válido (YYYY-MM-DD)'),
-        body("total").isFloat({ min: 0 }).isOptional().withMessage('El total debe ser un número decimal válido mayor o igual a 0')
+        body("total").isFloat({gt: 0}).isOptional().withMessage('El total debe ser un número decimal válido mayor o igual a 0')
         /*.custom(async value =>{
             if(!value){
                 throw new Error('El nombre no permite valores nulos');
