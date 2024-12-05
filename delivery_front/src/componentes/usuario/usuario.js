@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-//import './actualizar.css'; // Asegúrate de crear este archivo con los estilos
+import './usuario.css'; // Asegúrate de crear este archivo con los estilos
 import { mostrarAlerta } from '../alerts/Alert';
 
 const GuardarUsuario = () => {

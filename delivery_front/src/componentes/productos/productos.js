@@ -1,167 +1,205 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './producto.css';
+import "./producto.css";
 import { mostrarAlerta } from "../alerts/Alert";
 
 const GProducto = () => {
+  const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
   const [stock, setStock] = useState("");
   const [productos, setProductos] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    fetchProductos();
+  }, []);
+
+  const fetchProductos = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/api/productos");
+      console.log(response.data); // Para verificar la respuesta
+      setProductos(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error("Error al cargar productos:", error);
+      mostrarAlerta("No se pudo cargar la lista de productos.", "error");
+    }
+  };
 
   const handleGuardar = async (e) => {
     e.preventDefault();
 
-    // Validar los campos
-    const precioDouble = parseFloat(precio);
+    const precioFloat = parseFloat(precio);
     const stockInt = parseInt(stock, 10);
 
-    if (!nombre || !descripcion || isNaN(precioDouble) || isNaN(stockInt) || precioDouble <= 0 || stockInt < 0) {
+    if (!nombre || isNaN(precioFloat) || isNaN(stockInt) || precioFloat <= 0 || stockInt < 0) {
       mostrarAlerta("Por favor, completa todos los campos correctamente.", "warning");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:3001/api/productos/guardar", {
-        nombre,
-        descripcion,
-        precio: precioDouble,
-        stock: stockInt,
-      });
-
-      mostrarAlerta("Producto guardado exitosamente.", "success");
-      console.log("Respuesta del servidor:", response.data);
-
-      // Actualizar lista local con valores validados
-      setProductos([
-        ...productos,
-        { nombre, descripcion, precio: precioDouble, stock: stockInt },
-      ]);
-
-      // Limpiar formulario
-      setNombre("");
-      setDescripcion("");
-      setPrecio("");
-      setStock("");
-    } catch (error) {
-      console.error("Error al guardar el producto:", error);
-
-      if (error.response?.data?.error) {
-        mostrarAlerta(error.response.data.error, "error");
+      if (id) {
+        // Actualizar producto existente
+        await axios.put(`http://localhost:3001/api/productos/editar?id=${id}`, {
+          nombre,
+          descripcion: descripcion || null,
+          precio: precioFloat,
+          stock: stockInt,
+        });
+        mostrarAlerta("Producto actualizado exitosamente.", "success");
       } else {
-        mostrarAlerta("Error en la conexión con el servidor.", "error");
+        // Guardar un nuevo producto
+        await axios.post("http://localhost:3001/api/productos/guardar", {
+          nombre,
+          descripcion: descripcion || null,
+          precio: precioFloat,
+          stock: stockInt,
+        });
+        mostrarAlerta("Producto guardado exitosamente.", "success");
       }
+
+      limpiarFormulario();
+      fetchProductos(); // Refrescar la lista de productos después de guardar/editar
+    } catch (error) {
+      console.error("Error al guardar/editar el producto:", error);
+      mostrarAlerta(
+        error.response?.data?.error || "Error en la conexión con el servidor.",
+        "error"
+      );
     }
   };
 
-  // Filtrar productos según búsqueda
-  const productosFiltrados = productos.filter((producto) =>
-    Object.values(producto)
-      .join(" ")
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+  const limpiarFormulario = () => {
+    setId("");
+    setNombre("");
+    setDescripcion("");
+    setPrecio("");
+    setStock("");
+  };
+
+  const handleEditar = (producto) => {
+    setId(producto.id);
+    setNombre(producto.nombre);
+    setDescripcion(producto.descripcion);
+    setPrecio(producto.precio);
+    setStock(producto.stock);
+  };
 
   return (
     <div className="product-box">
-  <div className="product-header">
-    <h1>Gestión de Productos</h1>
-    <p className="product-box-msg">Completa los campos para registrar un producto</p>
-  </div>
-
-  <div className="product-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
-    {/* Formulario de registro */}
-    <form className="product-form" onSubmit={handleGuardar} style={{ flex: '1', marginRight: '20px' }}>
-      <div className="input-group">
-        <input
-          name="nombre"
-          type="text"
-          className="form-control"
-          placeholder="Nombre del Producto"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-group">
-        <textarea
-          name="descripcion"
-          className="form-control"
-          rows="3"
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-group">
-        <input
-          name="precio"
-          type="number"
-          className="form-control"
-          placeholder="Precio (ejemplo: 10.99)"
-          min="0"
-          step="0.01"
-          value={precio}
-          onChange={(e) => setPrecio(e.target.value)}
-          required
-        />
-      </div>
-      <div className="input-group">
-        <input
-          name="stock"
-          type="number"
-          className="form-control"
-          placeholder="Stock (ejemplo: 10)"
-          min="0"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Guardar
-      </button>
-    </form>
-
-    {/* Tabla de productos */}
-    <div className="product-table-container" style={{ flex: '1', marginLeft: '20px' }}>
-      <div className="product-search">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Buscar..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+      <div className="product-header">
+        <h1>Gestión de Productos</h1>
+        <p className="product-box-msg">Completa los campos para guardar o editar un producto</p>
       </div>
 
-      <table className="product-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productosFiltrados.map((producto, index) => (
-            <tr key={index}>
-              <td>{producto.nombre}</td>
-              <td>{producto.descripcion}</td>
-              <td>{producto.precio.toFixed(2)}</td>
-              <td>{producto.stock}</td>
+      <div className="product-container">
+        <form className="product-form" onSubmit={handleGuardar}>
+          <div className="input-group">
+            <input
+              name="id"
+              type="text"
+              className="form-control"
+              placeholder="ID del Producto (dejar vacío para agregar nuevo)"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              name="nombre"
+              type="text"
+              className="form-control"
+              placeholder="Nombre del Producto"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <textarea
+              name="descripcion"
+              className="form-control"
+              rows="3"
+              placeholder="Descripción (opcional)"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              name="precio"
+              type="number"
+              className="form-control"
+              placeholder="Precio (ejemplo: 10.99)"
+              min="0.01"
+              step="0.01"
+              value={precio}
+              onChange={(e) => setPrecio(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              name="stock"
+              type="number"
+              className="form-control"
+              placeholder="Stock (ejemplo: 10)"
+              min="0"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            {id ? "Actualizar" : "Guardar"}
+          </button>
+        </form>
+      </div>
+
+      <div className="product-table">
+        <h2>Listado de Productos</h2>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+          </thead>
+          <tbody>
+  {productos.length > 0 ? (
+    productos.map((producto) => (
+      <tr key={producto.id}>
+        <td>{producto.id}</td>
+        <td>{producto.nombre}</td>
+        <td>{producto.descripcion}</td>
+        <td>{producto.precio}</td>
+        <td>{producto.stock}</td>
+        <td>
+          <button
+            className="btn btn-warning btn-sm"
+            onClick={() => handleEditar(producto)}
+          >
+            Editar
+          </button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="6" className="text-center">
+        No hay productos disponibles.
+      </td>
+    </tr>
+  )}
+</tbody>
 
+        </table>
+      </div>
+    </div>
   );
 };
 
