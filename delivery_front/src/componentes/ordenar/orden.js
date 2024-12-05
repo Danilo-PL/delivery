@@ -51,10 +51,9 @@ const RegistrarVenta = () => {
             setProductoId('');
             setCantidad('');
             setPrecio('');
-            setIsv('');
             setDescuento(0);
         } catch (error) {
-            console.log('Error:', error);
+            console.log('Error:', error.response ? error.response.data : error.message);
             mostrarAlerta('Error al registrar la venta', 'error');
         }
     };
