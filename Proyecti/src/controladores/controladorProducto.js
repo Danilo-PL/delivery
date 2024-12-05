@@ -135,4 +135,36 @@ exports.eliminar = async (req, res) => {
         }
     }
 };
-//Deinar Jared Mejia Morales
+
+exports.buscar= async (req, res) => {
+    const { id } = req.query;
+    var contenido = {
+        tipo: 0,
+        datos: null, // Inicializado como null para indicar que no se encontró nada
+        msj: [],
+    };
+
+    contenido.msj = errores(validationResult(req));
+    if (contenido.msj.length > 0) {
+        enviar(200, contenido, res);
+    } else {
+        try {
+            const producto = await ModeloProducto.findOne({ where: { id: id } });
+
+            if (producto) {
+                contenido.tipo = 1;
+                contenido.datos = producto; // Datos del producto encontrado
+                enviar(200, contenido, res);
+            } else {
+                contenido.tipo = 0;
+                contenido.msj = "Producto no encontrado";
+                enviar(200, contenido, res);
+            }
+        } catch (error) {
+            console.log(error);
+            contenido.tipo = 0;
+            contenido.msj = "Error en el servidor";
+            enviar(500, contenido, res);
+        }
+    }
+};

@@ -1,113 +1,126 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import { mostrarAlerta } from "../alerts/Alert";
-//import './venta.css';
+import axios from 'axios';
+import { mostrarAlerta } from '../alerts/Alert'; // Asegúrate de tener esta función para mostrar alertas
 
 const RegistrarVenta = () => {
-  const [cantidad, setCantidad] = useState("");
-  const [precioUnitario, setPrecioUnitario] = useState("");
-  const [isv, setIsv] = useState(0.15);  // ISV (ejemplo: 15%)
-  const [descuento, setDescuento] = useState(0); // Descuento en porcentaje
-  const [productoId, setProductoId] = useState("");
-  const [productos, setProductos] = useState([]);
-  const [total, setTotal] = useState(0);  // Total de la venta
-  const [totalImpuesto, setTotalImpuesto] = useState(0);  // Total del ISV
+    const [productoId, setProductoId] = useState('');
+    const [cantidad, setCantidad] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [isv, setIsv] = useState(0.15); // ISV, 15% por defecto
+    const [descuento, setDescuento] = useState(0); // Descuento
+    const [subtotal, setSubtotal] = useState(0); // Subtotal
+    const [isvTotal, setIsvTotal] = useState(0); // ISV total
 
-  const handleRegistrarVenta = async (e) => {
-    e.preventDefault();
+    // Función para calcular el subtotal e ISV
+    useEffect(() => {
+        if (cantidad && precio) {
+            const subtotalCalc = cantidad * precio;
+            setSubtotal(subtotalCalc);
+            const isvCalc = subtotalCalc * isv;
+            setIsvTotal(isvCalc);
+        }
+    }, [cantidad, precio, isv]);
 
-    // Validación de los campos
-    const cantidadInt = parseInt(cantidad, 10);
-    const precioFloat = parseFloat(precioUnitario);
-    const descuentoFloat = parseFloat(descuento);
+    // Función para manejar el envío del formulario
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (!productoId || !cantidad || !precio) {
+                mostrarAlerta('Complete todos los campos', 'warning');
+                return;
+            }
 
-    if (isNaN(cantidadInt) || cantidadInt <= 0 || isNaN(precioFloat) || precioFloat <= 0) {
-      mostrarAlerta("Por favor, ingresa una cantidad y precio válidos.", "warning");
-      return;
-    }
+            const total = subtotal - descuento + isvTotal;
 
-    // Calcular subtotal, ISV y total
-    const subtotal = cantidadInt * precioFloat;
-    const impuesto = subtotal * isv;  // Total del ISV
-    const totalConDescuento = subtotal + impuesto - (subtotal * descuentoFloat / 100);  // Total con descuento
+            // Enviar los datos de la venta al backend
+            const response = await axios.post('http://localhost:3001/api/venta_detalles/guardar', {
+                productoId: productoId,
+                cantidad: cantidad,
+                precio: precio,
+                isvTotal: isvTotal,
+                descuento: descuento,
+                subtotal: subtotal - descuento + isvTotal, // Se descuenta el descuento y se agrega el ISV
+                total: total
+            });
 
-    // Establecer los valores del total y el impuesto
-    setTotal(totalConDescuento);
-    setTotalImpuesto(impuesto);
+            if (response.status === 200) {
+                mostrarAlerta('Venta registrada correctamente', 'success');
+            }
 
-    try {
-      const response = await axios.post("http://localhost:3001/api/venta_detalles/guardar", {
-        cantidad: cantidadInt,
-        precio_unitario: precioFloat,
-        isv: isv,
-        descuento: descuentoFloat / 100,  // Convertir a decimal
-        productoId,
-        fecha: new Date(),  // Enviar la fecha actual
-        total: totalConDescuento,
-      });
+            // Limpiar los inputs después de enviar el formulario
+            setProductoId('');
+            setCantidad('');
+            setPrecio('');
+            setIsv('');
+            setDescuento(0);
+        } catch (error) {
+            console.log('Error:', error);
+            mostrarAlerta('Error al registrar la venta', 'error');
+        }
+    };
 
-      mostrarAlerta("Venta registrada exitosamente.", "success");
-      console.log("Respuesta del servidor:", response.data);
-    } catch (error) {
-      console.error("Error al registrar la venta:", error);
-      mostrarAlerta("Error al registrar la venta.", "error");
-    }
-  };
+    return (
+        <div className="venta-box">
+            <div className="venta-header">
+                <h1>Registrar Venta</h1>
+                <p className="venta-box-msg">Complete los campos para registrar una venta</p>
+            </div>
 
-  // Mostrar total y total del impuesto
-  const mostrarTotalVenta = (total, totalImpuesto) => (
-    <div>
-      <p>Total Impuesto (ISV): ${totalImpuesto.toFixed(2)}</p>
-      <p>Total Venta: ${total.toFixed(2)}</p>
-    </div>
-  );
-
-  return (
-    <div className="venta-box">
-      <div className="venta-header">
-        <h1>Registrar Venta</h1>
-      </div>
-
-      <form onSubmit={handleRegistrarVenta} className="venta-form">
-        <div className="input-group">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Cantidad"
-            value={cantidad}
-            onChange={(e) => setCantidad(e.target.value)}
-            required
-          />
+            <form onSubmit={handleSubmit} className="venta-form">
+                <div className="input-group">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Cantidad"
+                        value={cantidad}
+                        onChange={(e) => setCantidad(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="input-group">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Precio"
+                        value={precio}
+                        onChange={(e) => setPrecio(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="ID Producto"
+                        value={productoId}
+                        onChange={(e) => setProductoId(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="input-group">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Descuento"
+                        value={descuento}
+                        onChange={(e) => setDescuento(Number(e.target.value))}
+                    />
+                </div>
+                <div className="input-group">
+                    <label>Subtotal: ${subtotal}</label>
+                </div>
+                <div className="input-group">
+                    <label>ISV: ${isvTotal}</label>
+                </div>
+                <div className="input-group">
+                    <label>Total: ${(subtotal - descuento + isvTotal).toFixed(2)}</label>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                    Registrar Venta
+                </button>
+            </form>
         </div>
-        <div className="input-group">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Precio Unitario"
-            value={precioUnitario}
-            onChange={(e) => setPrecioUnitario(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <input
-            className="form-control"
-            placeholder="Producto Id"
-            value={productoId}
-            onChange={(e) => setProductoId(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit" className="btn btn-primary">
-          Ordenar
-        </button>
-      </form>
-
-      {/* Mostrar los cálculos del total y el impuesto */}
-      {total > 0 && mostrarTotalVenta(total, totalImpuesto)}
-    </div>
-  );
+    );
 };
 
 export default RegistrarVenta;

@@ -115,7 +115,7 @@ rutas.get('/listar', controladorVenta_Detalle.listar);
 
 
 rutas.post('/guardar',
-    body("cantidad").isFloat({min: 0.01}).withMessage('cantidad no puede ser 0')
+    body("cantidad").isInt({min: 1}).withMessage('cantidad no puede ser 0')
     .custom(async value =>{
         if(!value){
             throw new Error('La cantidad no permite valores nulos');
@@ -200,7 +200,7 @@ rutas.post('/guardar',
                 }
             }
         }),
-        body("cantidad").isFloat({min: 0.01}).withMessage('cantidad no puede ser 0')
+        body("cantidad").isInt({min: 1}).withMessage('cantidad no puede ser 0')
         .custom(async value =>{
         if(!value){
             throw new Error('La cantidad no permite valores nulos');

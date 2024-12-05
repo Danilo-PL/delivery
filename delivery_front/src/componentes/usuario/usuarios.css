@@ -1,0 +1,83 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+/* Estilo del contenedor del formulario */
+.update-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.update-logo a {
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.update-box-msg {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Estilo del formulario */
+.update-box form {
+    width: 100%;
+}
+
+.update-box .input-group {
+    margin-bottom: 15px;
+}
+
+/* Estilo de los inputs con fondo blanco */
+.update-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Estilo del input al enfocar */
+.update-box input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: none;
+    background-color: #fff;
+}
+
+/* Estilo del botón */
+.update-box button {
+    background-color: #ff214f;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.update-box button:hover {
+    background-color: #FF8882;
+}

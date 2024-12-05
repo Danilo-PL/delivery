@@ -104,7 +104,7 @@ rutas.get('/listar', controladorRecibo.listar);
  */
 
 rutas.post('/guardar',
-    body("monto_total").isFloat({min: 0.01}).withMessage('monto no puede ser 0')
+    body("monto_total").isFloat({gt: 0}).withMessage('monto no puede ser 0')
     .custom(async value =>{
         if(!value){
             throw new Error('El monto_total no permite valores nulos');
@@ -185,7 +185,7 @@ rutas.post('/guardar',
                 }
             }
         }),
-        body("monto_total").isFloat({min: 0.01}).withMessage('monto no puede ser 0')
+        body("monto_total").isFloat({gt: 0}).withMessage('monto no puede ser 0')
     .custom(async value =>{
         if(!value){
             throw new Error('El monto_total no permite valores nulos');
