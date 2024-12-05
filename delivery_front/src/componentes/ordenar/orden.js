@@ -14,9 +14,9 @@ const RegistrarVenta = () => {
     // Función para calcular el subtotal e ISV
     useEffect(() => {
         if (cantidad && precio) {
-            const subtotalCalc = cantidad * precio;
+            const subtotalCalc = parseInt(cantidad) * parseFloat(precio);
             setSubtotal(subtotalCalc);
-            const isvCalc = subtotalCalc * isv;
+            const isvCalc = subtotalCalc * parseFloat(isv);
             setIsvTotal(isvCalc);
         }
     }, [cantidad, precio, isv]);
@@ -30,17 +30,22 @@ const RegistrarVenta = () => {
                 return;
             }
 
-            const total = subtotal - descuento + isvTotal;
+            // Asegurarse de convertir todos los valores a tipo adecuado
+            const cantidadInt = parseInt(cantidad);
+            const precioFloat = parseFloat(precio);
+            const descuentoFloat = parseFloat(descuento);
+            const subtotalFinal = parseFloat(subtotal);
+            const total = subtotalFinal - descuentoFloat + isvTotal;
 
             // Enviar los datos de la venta al backend
             const response = await axios.post('http://localhost:3001/api/venta_detalles/guardar', {
                 productoId: productoId,
-                cantidad: cantidad,
-                precio: precio,
-                isvTotal: isvTotal,
-                descuento: descuento,
-                subtotal: subtotal - descuento + isvTotal, // Se descuenta el descuento y se agrega el ISV
-                total: total
+                cantidad: cantidadInt, // cantidad como entero
+                precio: precioFloat, // precio como float
+                isvTotal: isvTotal, // isv total como double
+                descuento: descuentoFloat, // descuento como double
+                subtotal: subtotalFinal, // subtotal como double
+                total: total // total como double
             });
 
             if (response.status === 200) {
@@ -106,16 +111,16 @@ const RegistrarVenta = () => {
                     />
                 </div>
                 <div className="input-group">
-                    <label>Subtotal: ${subtotal}</label>
+                    <label>Subtotal: ${subtotal.toFixed(2)}</label>
                 </div>
                 <div className="input-group">
-                    <label>ISV: ${isvTotal}</label>
+                    <label>ISV: ${isvTotal.toFixed(2)}</label>
                 </div>
                 <div className="input-group">
                     <label>Total: ${(subtotal - descuento + isvTotal).toFixed(2)}</label>
                 </div>
                 <button type="submit" className="btn btn-primary">
-                    Registrar Venta
+                    Ordenar
                 </button>
             </form>
         </div>
