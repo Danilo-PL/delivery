@@ -6,23 +6,23 @@ const Venta_detalle = db.define(
     {
         cantidad:{
             type: sequelize.INTEGER,
-            allowNull: false,
+            allowNull: false
         },
         precio_unitario:{
             type: sequelize.FLOAT,
-            allowNull: false,
+            allowNull: false
         },
         isv:{
             type: sequelize.DOUBLE,
-            allowNull: true,
+            allowNull: true
         },
         descuento:{
             type: sequelize.DOUBLE,
-            allowNull: true,
+            allowNull: true
         },
         subtotal:{
         type: sequelize.DOUBLE,
-        allowNull: false,
+        allowNull: false
         },
     },
     {

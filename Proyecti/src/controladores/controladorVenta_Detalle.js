@@ -33,7 +33,7 @@ exports.listar = async (req, res)=>{
 };
 
 exports.guardar = async (req, res) => {
-    const { ventaId, productoId, cantidad, precio_unitario, isv, descuento, subtotal  } = req.body;
+    const { cantidad, precio_unitario, isv, descuento, subtotal, ventumId, productoId } = req.body;
     var contenido = {
         tipo: 0,
         datos: [],
